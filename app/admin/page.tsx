@@ -48,10 +48,10 @@ export default async function AdminDashboard() {
           </div>
           <nav style={{ padding: "1rem 0.75rem", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
             {[
-              { href: "/admin",              icon: "⊞", label: "Dashboard"    },
-              { href: "/admin/reports",      icon: "📋", label: "Reports"     },
-              { href: "/admin/appointments", icon: "📅", label: "Appointments"},
-              { href: "/admin/slots",        icon: "🕐", label: "Time Slots"  },
+              { href: "/admin",              icon: "", label: "Dashboard"    },
+              { href: "/admin/reports",      icon: "", label: "Reports"     },
+              { href: "/admin/appointments", icon: "", label: "Appointments"},
+              { href: "/admin/slots",        icon: "", label: "Time Slots"  },
             ].map(({ href, icon, label }) => (
               <Link key={href} href={href} style={{
                 display:      "flex",
@@ -83,7 +83,7 @@ export default async function AdminDashboard() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
             <div>
               <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "1.8rem", color: "#F1F5F9" }}>Dashboard</h1>
-              <p style={{ color: "#64748B", fontSize: "0.85rem", marginTop: "0.2rem" }}>Durham Human Relations Commission — Admin View</p>
+              <p style={{ color: "#64748B", fontSize: "0.85rem", marginTop: "0.2rem" }}>Speak Equal  — Admin View</p>
             </div>
             <span style={{ background: "#1E40AF", color: "#93C5FD", fontSize: "0.72rem", fontWeight: 700, padding: "0.25rem 0.75rem", borderRadius: "999px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
               Admin
@@ -179,7 +179,7 @@ export default async function AdminDashboard() {
             </div>
           </div>
 
-          {/* Durham Protected Classes Reference */}
+          
           <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: "16px", padding: "1.5rem", marginTop: "1.5rem" }}>
             <h2 style={{ fontFamily: "var(--font-heading)", color: "#F1F5F9", fontSize: "1.1rem", marginBottom: "1rem" }}>Admin Management</h2>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>

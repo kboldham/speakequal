@@ -90,9 +90,9 @@ export default async function UserReportsPage() {
                     {/* Status explanation */}
                     <div style={{ background: "var(--color-bg-muted)", borderRadius: "8px", padding: "0.75rem 1rem" }}>
                       <p style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "var(--color-text-secondary)" }}>
-                        {r.status === "pending"   && "Your report has been received and is waiting to be reviewed by the Durham Human Relations Commission."}
-                        {r.status === "reviewing" && "A staff member at the Durham Human Relations Commission is currently reviewing your report."}
-                        {r.status === "resolved"  && "Your report has been reviewed and resolved. Contact the Durham Human Relations Commission for details."}
+                        {r.status === "pending"   && "Your report has been received and is waiting to be reviewed by the Speak Equal ."}
+                        {r.status === "reviewing" && "A staff member at the Speak Equal is currently reviewing your report."}
+                        {r.status === "resolved"  && "Your report has been reviewed and resolved. Contact the Speak Equal for details."}
                       </p>
                     </div>
 
@@ -132,7 +132,7 @@ export default async function UserReportsPage() {
         </div>
 
         <footer style={{ background: "#7B1C1C", color: "rgba(255,255,255,0.7)", padding: "2.5rem 1.5rem", textAlign: "center", marginTop: "2rem" }}>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem" }}>Durham Human Relations Commission · 101 City Hall Plaza, Durham, NC 27701 · (919) 560-4197</p>
+          <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem" }}>Speak Equal  · North Carolina Central University</p>
         </footer>
       </main>
     </>

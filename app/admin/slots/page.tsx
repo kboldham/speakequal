@@ -95,7 +95,7 @@ export default function AdminSlotsPage() {
     });
 
     if (res.ok) {
-      setSuccess(`✅ Created ${slots.length} time slots successfully`);
+      setSuccess(`Created ${slots.length} time slots successfully`);
       await fetchSlots();
     }
     setCreating(false);
@@ -121,10 +121,10 @@ export default function AdminSlotsPage() {
         </div>
         <nav style={{ padding: "1rem 0.75rem", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
           {[
-            { href: "/admin",              icon: "⊞", label: "Dashboard"    },
-            { href: "/admin/reports",      icon: "📋", label: "Reports"     },
-            { href: "/admin/appointments", icon: "📅", label: "Appointments"},
-            { href: "/admin/slots",        icon: "🕐", label: "Time Slots", active: true },
+            { href: "/admin",              icon: "", label: "Dashboard"    },
+            { href: "/admin/reports",      icon: "", label: "Reports"     },
+            { href: "/admin/appointments", icon: "", label: "Appointments"},
+            { href: "/admin/slots",        icon: "", label: "Time Slots", active: true },
           ].map(({ href, icon, label, active }) => (
             <Link key={href} href={href} style={{
               display: "flex", alignItems: "center", gap: "0.6rem",

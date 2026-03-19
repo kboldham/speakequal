@@ -43,7 +43,7 @@ export default async function UserDashboard() {
               Welcome back{session.user.name ? `, ${session.user.name.split(" ")[0]}` : ""}
             </h1>
             <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.75)", fontSize: "0.9rem", marginTop: "0.3rem" }}>
-              Durham Human Relations Commission — Resident Portal
+              Speak Equal — Resident Portal
             </p>
           </div>
         </section>
@@ -67,7 +67,7 @@ export default async function UserDashboard() {
             <div className="card">
               <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", marginBottom: "0.4rem" }}>Schedule Appointment</h2>
               <p style={{ fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "1rem", lineHeight: 1.5 }}>
-                Book an in-person consultation at the Durham Human Relations Commission.
+                Book an in-person consultation at the with Durham's Human Relations division.
               </p>
               <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
                 <Link href="/report?tab=appointment&mode=ai" className="btn-primary" style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}>AI Assistant</Link>

@@ -243,9 +243,8 @@ export default function EducatePage() {
             <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", marginBottom: "1rem" }}>Durham Resources</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.75rem" }}>
               {[
-                { label: "Durham Human Relations Commission", value: "(919) 560-4197" },
-                { label: "NC Human Relations Commission",    value: "(919) 431-3000" },
-                { label: "EEOC Charlotte District Office",  value: "(800) 669-4000" },
+                { label: "Durham Human Relations Commission", value: "" },
+                { label: "NC Human Relations ",    value: "(919) 431-3000" },
                 { label: "Durham City Hall",                value: "101 City Hall Plaza, Durham NC 27701" },
               ].map(({ label, value }) => (
                 <div key={label} style={{ padding: "0.875rem", background: "#fff", borderRadius: "10px", border: "1px solid #dbe8f8" }}>

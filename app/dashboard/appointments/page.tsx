@@ -117,10 +117,10 @@ export default function UserAppointmentsPage() {
 
           {appointments.length === 0 ? (
             <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>📅</div>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}></div>
               <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.4rem", marginBottom: "0.75rem" }}>No appointments yet</h2>
               <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>
-                Book an in-person consultation at the Durham Human Relations Commission.
+                Book an in-person consultation at the office of Human Relations .
               </p>
               <Link href="/report#appointments" className="btn-primary">Schedule an Appointment</Link>
             </div>
@@ -228,7 +228,7 @@ export default function UserAppointmentsPage() {
         </div>
 
         <footer style={{ background: "#7B1C1C", color: "rgba(255,255,255,0.7)", padding: "2.5rem 1.5rem", textAlign: "center", marginTop: "2rem" }}>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem" }}>Durham Human Relations Commission · 101 City Hall Plaza, Durham, NC 27701 · (919) 560-4197</p>
+          <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem" }}>Speak Equal  · North Carolina Central University</p>
         </footer>
       </main>
     </>

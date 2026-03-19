@@ -41,7 +41,7 @@ export default function HomePage() {
               margin:       "0 auto 2.25rem",
               lineHeight:   1.7,
             }}>
-              The Durham Human Relations Commission is here to help you understand your rights,
+              The Speak Equal is here to help you understand your rights,
               file a discrimination report, and schedule support — safely and confidentially.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
@@ -58,14 +58,14 @@ export default function HomePage() {
         {/* ── PROTECTED CLASSES STRIP ── */}
         <section style={{ background: "var(--color-primary-light)", borderTop: "1px solid #dbe8f8", borderBottom: "1px solid #dbe8f8", padding: "1.25rem 1.5rem", overflowX: "auto" }}>
           <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", fontWeight: 700, color: "var(--color-primary)", textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap", marginRight: "0.5rem" }}>
+            <span style={{ fontFamily: "var(--font-body)", fontSize: "0.88rem", fontWeight: 700, color: "var(--color-primary)", textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap", marginRight: "0.5rem" }}>
               Protected classes:
             </span>
             {["Race","Color","Religion","Sex","National Origin","Age 40+","Disability","Sexual Orientation","Gender Identity","Familial Status","Veteran Status"].map((c, i) => (
               <span key={c} style={{
                 background:   "var(--color-primary)",
                 color:        "#fff",
-                fontSize:     "0.72rem",
+                fontSize:     "0.90rem",
                 fontWeight:   600,
                 padding:      "0.2rem 0.65rem",
                 borderRadius: "999px",
@@ -80,7 +80,7 @@ export default function HomePage() {
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <span className="section-label">How it works</span>
             <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", marginTop: "0.5rem" }}>
-              Three ways we can help
+              What We Offer
             </h2>
           </div>
 
@@ -103,7 +103,7 @@ export default function HomePage() {
               {
                 icon:  "",
                 title: "Schedule an Appointment",
-                desc:  "Book an in-person or phone consultation at the Durham Human Relations Commission office — anonymously if needed, no login required.",
+                desc:  "Book an in-person or phone consultation at theanonymously if needed, no login required.",
                 href:  "/report#appointments",
                 cta:   "Book a time",
               },
@@ -118,12 +118,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── ANONYMOUS NOTICE ── */}
+        {/* ── SAFETY & PRIVACY ── */}
         <section style={{ background: "var(--color-accent-light)", borderTop: "1px solid #c6eedd", borderBottom: "1px solid #c6eedd", padding: "3rem 1.5rem" }}>
           <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
             <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}></div>
             <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.6rem", marginBottom: "0.75rem", color: "var(--color-text-primary)" }}>
-              Youe Safety and Privacy is our Top Priority
+              Your Safety and Privacy is our Top Priority
             </h2>
             <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", fontSize: "0.95rem", lineHeight: 1.7 }}>
               You are never required to create an account. Reports can be filed anonymously and appointments can be scheduled as walk in appointments without providing personal iformation. We are here to create a safe and welcoming environment for residents of the city of Durham to voice their concerns about discrimination, and we will never require you to share more than you are comfortable with.
@@ -137,7 +137,7 @@ export default function HomePage() {
             SpeakEqual · North Carolina Central University
           </p>
           <p style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", marginTop: "0.5rem", color: "rgba(255,255,255,0.45)" }}>
-            Disclaimer: This is a student project created for educational purposes as part of a university capstone course. As of right now it is not an official platform of the Durham Human Relations Commission. For official reporting and resources, please visit the Durham HRC website or contact them directly. This website is free for any to browse and learn more about discrimination rights within the city of Durham, however if you are not a resident of Durham, NC you cannot submit a formal report. 
+            Disclaimer: This is a student project created for educational purposes as part of a university capstone course. As of right now it is not an official platform of the Speak Equal . For official reporting and resources, please visit the Durham HRC website or contact them directly. This website is free for any to browse and learn more about discrimination rights within the city of Durham, however if you are not a resident of Durham, NC you cannot submit a formal report. 
           </p>
         </footer>
       </main>

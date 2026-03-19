@@ -2,7 +2,7 @@ export const theme = {
   colors: {
     // ── Primary brand color (buttons, links, highlights)
     primary:        "#5e1515",   // deep civic blue
-    primaryHover:   "#163a6b",
+    primaryHover:   "#5e1515",
     primaryLight:   "#EBF1FB",
 
     // ── Accent (badges, tags, active states)

@@ -2,11 +2,11 @@ import Navbar from "../components/navbar";
 
 // ── Update these with your real team info ──
 const team = [
-  { name: "Corey Little", role: "Project Manager", bio: "Short bio about this team member and their contribution to the project." },
-  { name: "Savion Brown", role: "Developer", bio: "Short bio about this team member and their contribution to the project." },
-  { name: "Deshawn Johnson", role: "Developer", bio: "Short bio about this team member and their contribution to the project." },
-  { name: "Kyle Oldham", role: "Lead Developer",  bio: "Short bio about this team member and their contribution to the project." },
-  { name: "Melanie Osley", role: "Researcher",  bio: "Short bio about this team member and their contribution to the project." },
+  { name: "Corey Little", role: "Project Manager", bio: "Bio" },
+  { name: "Savion Brown", role: "Developer", bio: "Bio" },
+  { name: "Deshawn Johnson", role: "Developer", bio: "Bio" },
+  { name: "Kyle Oldham", role: "Lead Developer",  bio: "Bio" },
+  { name: "Melanie Osley", role: "Researcher",  bio: "Bio" },
 ];
 
 export default function AboutPage() {
@@ -29,7 +29,7 @@ export default function AboutPage() {
           </h1>
           <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.8)", maxWidth: "580px", margin: "0 auto", fontSize: "1rem", lineHeight: 1.7 }}>
             This platform was developed as a capstone project to modernize how Durham residents access
-            discrimination reporting and Human Relations Commission services.
+            discrimination reporting and Human Relations  services.
           </p>
         </section>
 
@@ -61,7 +61,7 @@ export default function AboutPage() {
             <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", lineHeight: 1.75 }}>
               The platform includes an AI-powered assistant trained on Durham's discrimination laws and
               protected classes, a traditional form-based reporting path, a built-in appointment scheduler,
-              and an admin dashboard for the Human Relations Commission team to manage submissions.
+              and an admin dashboard for the Human Relations  team to manage submissions.
             </p>
           </div>
 
