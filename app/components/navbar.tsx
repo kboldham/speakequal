@@ -7,10 +7,10 @@ import { useSession, signOut } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 
 const learnMoreLinks = [
-  { href: "/educate#employment",            label: "Employment"            },
-  { href: "/educate#housing",               label: "Housing"               },
-  { href: "/educate#public-accommodations", label: "Public Accommodations" },
-  { href: "/educate#protected-classes",     label: "Protected Classes"     },
+  { href: "/learnmore#employment",            label: "Employment"            },
+  { href: "/learnmore#housing",               label: "Housing"               },
+  { href: "/learnmore#public-accommodations", label: "Public Accommodations" },
+  { href: "/learnmore#protected-classes",     label: "Protected Classes"     },
 ];
 
 const mainLinks = [
@@ -27,7 +27,7 @@ export default function Navbar() {
   const learnRef = useRef<HTMLDivElement>(null);
 
   const dashHref = session?.user?.role === "admin" ? "/admin" : "/dashboard";
-  const isEducateActive = pathname.startsWith("/educate");
+  const isEducateActive = pathname.startsWith("/learnmore");
 
   // Close dropdown when clicking outside
   useEffect(() => {

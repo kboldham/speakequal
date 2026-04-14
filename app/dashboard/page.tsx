@@ -80,7 +80,7 @@ export default async function UserDashboard() {
               <p style={{ fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "1rem", lineHeight: 1.5 }}>
                 Read about Durham's 11 protected classes and applicable laws.
               </p>
-              <Link href="/educate" className="btn-outline" style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}>Read more</Link>
+              <Link href="/learnmore" className="btn-outline" style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}>Read more</Link>
             </div>
           </div>
 

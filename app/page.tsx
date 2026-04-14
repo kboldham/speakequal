@@ -17,7 +17,7 @@ const SLIDES = [
     heading: "You Have the Right\nto Be Treated Fairly",
     body: "Speak Equal is here to help you understand your civil rights, file a discrimination report, and connect with a trained advocate safely and confidentially.",
     cta: { label: "File a Report", href: "/report" },
-    secondary: { label: "Know Your Rights", href: "/educate" },
+    secondary: { label: "Know Your Rights", href: "/learnmore" },
   },
   {
     image: "/images/people.png" as string | null,
@@ -34,7 +34,7 @@ const SLIDES = [
     label: "Know Your Rights",
     heading: "11 Protected Classes.\nOne Platform.",
     body: "From race and religion to veteran status and gender identity, learn which protections apply to you and what steps to take if they have been violated.",
-    cta: { label: "Explore Your Rights", href: "/educate" },
+    cta: { label: "Explore Your Rights", href: "/learnmore" },
     secondary: { label: "File a Report", href: "/report" },
   },
 ];
@@ -55,7 +55,7 @@ const QUICK_LINKS = [
   {
     title: "Know Your Rights",
     desc: "Plain-language guides on all 11 protected classes, applicable laws, and what to expect after filing.",
-    href: "/educate",
+    href: "/learnmore",
     cta: "Learn More",
   },
   {
@@ -228,7 +228,7 @@ export default function HomePage() {
               { label: "Familial Status",      id: "familial_status"    },
               { label: "Veteran Status",       id: "veteran_status"     },
             ].map(({ label, id }) => (
-              <Link key={id} href={`/educate#${id}`} style={{
+              <Link key={id} href={`/learnmore#${id}`} style={{
                 background:     "var(--color-primary)",
                 color:          "#fff",
                 fontSize:       "0.88rem",
@@ -298,7 +298,7 @@ export default function HomePage() {
           <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap", marginBottom: "1rem" }}>
             {[
               { label: "File a Report", href: "/report" },
-              { label: "Know Your Rights", href: "/educate" },
+              { label: "Know Your Rights", href: "/learnmore" },
               { label: "Schedule an Appointment", href: "/report" },
               { label: "About Us", href: "/about" },
             ].map(({ label, href }) => (

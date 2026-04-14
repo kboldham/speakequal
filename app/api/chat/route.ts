@@ -120,14 +120,14 @@ When a user wants to file a report, guide them through this flow naturally — a
 5. Ask if they know the name, address, or phone number of the respondent (business, employer, landlord, or individual) — explain it is optional but helpful
 6. Ask if they would like to provide their own contact information (name, phone, address, zip) — explain it is entirely optional and they may file anonymously
 7. Read back all collected details and ask: "Does this look right? I'll go ahead and submit your report."
-8. Call submit_discrimination_report with all collected fields
+8. When the user says yes, confirms, or gives any affirmative response — you MUST call submit_discrimination_report immediately in that same response. Do NOT say "I'll submit it now" or "submitting…" as a text reply. The function call IS the submission. Never tell the user a report has been submitted unless the function returned success.
 
 ## Booking an Appointment
 When a user wants to book an appointment:
 1. Ask what they would like to discuss
 2. Present 2 to 3 available slots in a readable format (e.g., "Tuesday, April 8th at 10:00 AM")
 3. Confirm the user's selection before booking
-4. Call book_appointment with the exact slot ID and reason
+4. When the user selects and confirms a slot — you MUST call book_appointment immediately in that same response using the exact slot ID from the available slots list. Do NOT say "booking now…" as a text reply. The function call IS the booking. Never tell the user an appointment is booked unless the function returned success.
 
 ## Legal Knowledge
 You can explain these laws in plain terms:
@@ -392,27 +392,32 @@ export async function POST(req: Request) {
           const args = JSON.parse(call.function.arguments);
 
           if (call.function.name === "submit_discrimination_report") {
-            await prisma.report.create({
-              data: {
-                userId:            userId,
-                incidentDate:      new Date(args.incidentDate),
-                discriminationType: args.discriminationType,
-                category:          args.category          ?? null,
-                description:       args.description,
-                source:            "ai",
-                conversationId:    activeConversationId   ?? null,
-                firstName:         args.firstName         ?? null,
-                lastName:          args.lastName          ?? null,
-                phone:             args.phone             ?? null,
-                address:           args.address           ?? null,
-                zipCode:           args.zipCode           ?? null,
-                respondentName:    args.respondentName    ?? null,
-                respondentAddress: args.respondentAddress ?? null,
-                respondentPhone:   args.respondentPhone   ?? null,
-              },
-            });
-            createdReport = true;
-            toolResult = "Report submitted successfully.";
+            const incidentDate = new Date(args.incidentDate);
+            if (isNaN(incidentDate.getTime())) {
+              toolResult = "Error: incidentDate is not a valid date. Ask the user to clarify the date and try again.";
+            } else {
+              await prisma.report.create({
+                data: {
+                  userId:            userId,
+                  incidentDate,
+                  discriminationType: args.discriminationType,
+                  category:          args.category          ?? null,
+                  description:       args.description,
+                  source:            "ai",
+                  conversationId:    activeConversationId   ?? null,
+                  firstName:         args.firstName         ?? null,
+                  lastName:          args.lastName          ?? null,
+                  phone:             args.phone             ?? null,
+                  address:           args.address           ?? null,
+                  zipCode:           args.zipCode           ?? null,
+                  respondentName:    args.respondentName    ?? null,
+                  respondentAddress: args.respondentAddress ?? null,
+                  respondentPhone:   args.respondentPhone   ?? null,
+                },
+              });
+              createdReport = true;
+              toolResult = "Report submitted successfully.";
+            }
           }
 
           if (call.function.name === "book_appointment") {

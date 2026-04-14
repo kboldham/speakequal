@@ -134,10 +134,9 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
         setReportCreated(true);
       }
 
-      // AI wants to book an appointment — show slot picker
-      if (data.appointmentIntent) {
-        setPendingReason(data.appointmentIntent.reason ?? "");
-        setShowSlotPicker(true);
+      // Appointment was booked by AI
+      if (data.appointmentBooked) {
+        setSlotBooked(true);
       }
 
       // Refresh conversation list
@@ -351,6 +350,20 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
               {isLoggedIn && (
                 <Link href="/dashboard/reports" style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--color-accent)", fontWeight: 600, textDecoration: "none" }}>
                   View your reports →
+                </Link>
+              )}
+            </div>
+          )}
+
+          {/* Appointment booked confirmation */}
+          {slotBooked && (
+            <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: "10px", padding: "0.875rem 1rem" }}>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--color-text-primary)", fontWeight: 600 }}>
+                Your appointment has been booked successfully.
+              </p>
+              {isLoggedIn && (
+                <Link href="/dashboard/appointments" style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "#2563EB", fontWeight: 600, textDecoration: "none" }}>
+                  View your appointments →
                 </Link>
               )}
             </div>
