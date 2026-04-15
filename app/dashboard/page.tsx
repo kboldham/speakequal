@@ -40,7 +40,7 @@ export default async function UserDashboard() {
           <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
             <span className="section-label" style={{ color: "#FFFFFF", display: "block", marginBottom: "0.4rem" }}>My Portal</span>
             <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.6rem, 3vw, 2.2rem)", color: "#fff" }}>
-              Welcome back{session.user.name ? `, ${session.user.name.split(" ")[0]}` : ""}
+              Welcome back
             </h1>
             <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.75)", fontSize: "0.9rem", marginTop: "0.3rem" }}>
               Speak Equal — Resident Portal

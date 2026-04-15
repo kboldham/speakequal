@@ -20,7 +20,7 @@ export async function GET(req: Request) {
 
   if (view === "reports") {
     const reports = await prisma.report.findMany({
-      include: { user: { select: { name: true, email: true } }, attachments: true },
+      include: { user: { select: { email: true } }, attachments: true },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(reports);
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   if (view === "appointments") {
     const appointments = await prisma.appointment.findMany({
       include: {
-        user: { select: { name: true, email: true } },
+        user: { select: { email: true } },
         slot: true,
       },
       orderBy: { createdAt: "desc" },
