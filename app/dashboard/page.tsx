@@ -43,7 +43,7 @@ export default async function UserDashboard() {
               Welcome back
             </h1>
             <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.75)", fontSize: "0.9rem", marginTop: "0.3rem" }}>
-              Speak Equal — Resident Portal
+              SpeakEqual — Resident Portal
             </p>
           </div>
         </section>
@@ -67,7 +67,7 @@ export default async function UserDashboard() {
             <div className="card">
               <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", marginBottom: "0.4rem" }}>Schedule Appointment</h2>
               <p style={{ fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "1rem", lineHeight: 1.5 }}>
-                Book a confidential in-person consultation with a Speak Equal advocate.
+                Book a confidential in-person consultation with a SpeakEqual advocate.
               </p>
               <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
                 <Link href="/report?tab=appointment&mode=ai" className="btn-primary" style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}>AI Assistant</Link>
@@ -81,6 +81,14 @@ export default async function UserDashboard() {
                 Read about Durham's 11 protected classes and applicable laws.
               </p>
               <Link href="/learnmore" className="btn-outline" style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}>Read more</Link>
+            </div>
+
+            <div className="card">
+              <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", marginBottom: "0.4rem" }}>My Profile</h2>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "1rem", lineHeight: 1.5 }}>
+                Change your email or password, or delete your account.
+              </p>
+              <Link href="/dashboard/profile" className="btn-outline" style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}>Manage Profile</Link>
             </div>
           </div>
 
@@ -146,7 +154,7 @@ export default async function UserDashboard() {
         </div>
 
         <footer style={{ background: "#1E1A16", color: "rgba(255,255,255,0.65)", padding: "2.5rem 1.5rem", textAlign: "center", marginTop: "2rem" }}>
-          <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>Speak Equal</p>
+          <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>SpeakEqual</p>
         </footer>
       </main>
     </>

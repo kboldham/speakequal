@@ -122,18 +122,24 @@ export default function ReportPage() {
           textAlign:  "center",
         }}>
           <span className="section-label" style={{ color: "rgba(255,255,255,0.75)", display: "block", marginBottom: "0.75rem" }}>
-            Speak Equal
+            SpeakEqual
           </span>
           <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", color: "#fff", marginBottom: "0.75rem", lineHeight: 1.2 }}>
             Tell Us What Happened
           </h1>
           <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.8)", maxWidth: "540px", margin: "0 auto", fontSize: "0.975rem", lineHeight: 1.75 }}>
-            Our AI advocate will walk you through the process — filing a report, booking an appointment, or simply answering your questions. You are never required to create an account.
+            Our AI advocate will walk you through the process filing a report, booking an appointment, or simply answering your questions. You are never required to create an account.
           </p>
         </section>
 
+        {/* ── TWO-COLUMN WRAPPER ── */}
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem", display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+
+        {/* ── LEFT COLUMN ── */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+
         {/* ── AI CHATBOT — MAIN FEATURE ── */}
-        <section style={{ maxWidth: "900px", margin: "0 auto", padding: "2.5rem 1.5rem 1rem" }}>
+        <section style={{ padding: "2.5rem 0 1rem" }}>
 
           {/* Section label */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
@@ -159,7 +165,7 @@ export default function ReportPage() {
         </section>
 
         {/* ── PREFER TO DO IT YOURSELF? ── */}
-        <section style={{ maxWidth: "900px", margin: "0 auto", padding: "1.5rem 1.5rem 3rem" }}>
+        <section style={{ padding: "1.5rem 0 3rem" }}>
 
           <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
             <div style={{ flex: 1, height: "1px", background: "var(--color-border)" }} />
@@ -207,7 +213,7 @@ export default function ReportPage() {
                       <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>✅</div>
                       <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", marginBottom: "0.5rem" }}>Report Submitted</h3>
                       <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", fontSize: "0.875rem" }}>
-                        Thank you. Speak Equal will review your report.
+                        Thank you. SpeakEqual will review your report.
                       </p>
                       <button onClick={() => setReportSubmitted(false)} className="btn-outline" style={{ marginTop: "1rem", fontSize: "0.85rem" }}>
                         Submit another
@@ -510,9 +516,72 @@ export default function ReportPage() {
           </div>
         </section>
 
+        </div>{/* end left column */}
+
+        {/* ── RIGHT SIDEBAR ── */}
+        <aside className="report-sidebar" style={{ width: "300px", flexShrink: 0, position: "sticky", top: "80px" }}>
+
+          {/* Card 1 — Retaliation */}
+          <div className="card" style={{ marginBottom: "1.25rem" }}>
+            <span className="section-label" style={{ display: "block", marginBottom: "0.6rem" }}>Know Your Rights</span>
+            <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.05rem", marginBottom: "0.75rem" }}>What is Retaliation?</h3>
+            <p style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "var(--color-text-secondary)", lineHeight: 1.65, marginBottom: "0.875rem" }}>
+              Retaliation occurs when an employer or individual takes a negative action against you specifically because you filed a report or participated in an investigation. It is often illegal and violates most company policies.
+            </p>
+            <p style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", fontWeight: 700, color: "var(--color-text-primary)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "0.4rem" }}>
+              Common Examples
+            </p>
+            <ul style={{ paddingLeft: "1.25rem", margin: "0 0 0.875rem", display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+              {[
+                "Sudden demotion or salary reduction",
+                "Exclusion from important meetings or projects",
+                "Hostile behavior or social freezing by management",
+                "Unexpectedly poor performance reviews",
+              ].map(ex => (
+                <li key={ex} style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--color-text-secondary)", lineHeight: 1.5 }}>{ex}</li>
+              ))}
+            </ul>
+            <p style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--color-text-secondary)", lineHeight: 1.65 }}>
+              <strong style={{ color: "var(--color-text-primary)" }}>Your Right:</strong> Reporting a concern in good faith protects you. If you feel you are being treated differently after your report, document these instances immediately and report them as a secondary retaliation claim.
+            </p>
+          </div>
+
+          {/* Card 2 — After You Submit */}
+          <div className="card">
+            <span className="section-label" style={{ display: "block", marginBottom: "0.6rem" }}>Next Steps</span>
+            <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.05rem", marginBottom: "0.875rem" }}>What Happens Next</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+              {[
+                { n: 1, title: "Secure Your Documentation", body: "Keep a private copy of your submitted report and confirmation. Save any evidence in a secure, non-work location such as a personal cloud drive." },
+                { n: 2, title: "Maintain Confidentiality", body: "Avoid discussing the details of the report with coworkers or on social media to keep the investigation clean and avoid alerting the subject." },
+                { n: 3, title: "Monitor for Status Updates", body: "Check your inbox or this portal regularly. Investigators may need follow-up answers from you, and delays can stall the case." },
+                { n: 4, title: "Record Subsequent Interactions", body: "Keep a log of any interactions with the subjects of the report or management. Note the date, time, location, and what was said." },
+                { n: 5, title: "Seek Support", body: "Investigations can be emotionally draining. If your organization has an Employee Assistance Program or a trusted mentor, reach out for support." },
+              ].map(({ n, title, body }) => (
+                <div key={n} style={{ display: "flex", gap: "0.75rem" }}>
+                  <span style={{ flexShrink: 0, width: "22px", height: "22px", borderRadius: "50%", background: "var(--color-primary-light)", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.7rem", fontWeight: 700, fontFamily: "var(--font-body)", marginTop: "1px" }}>
+                    {n}
+                  </span>
+                  <div>
+                    <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.825rem", fontWeight: 700, color: "var(--color-text-primary)", marginBottom: "0.2rem" }}>{title}</p>
+                    <p style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", color: "var(--color-text-secondary)", lineHeight: 1.6 }}>{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </aside>
+
+        </div>{/* end two-column wrapper */}
+
+        <style>{`
+          @media (max-width: 768px) { .report-sidebar { display: none !important; } }
+        `}</style>
+
         <footer style={{ background: "#1E1A16", color: "rgba(255,255,255,0.65)", padding: "2.5rem 1.5rem", textAlign: "center" }}>
           <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>
-            Speak Equal
+            SpeakEqual
           </p>
         </footer>
       </main>

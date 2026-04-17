@@ -92,6 +92,7 @@ export async function POST(req: Request) {
       startTime: new Date(s.startTime),
       endTime: new Date(s.endTime),
     })),
+    skipDuplicates: true,
   });
 
   return NextResponse.json(created);

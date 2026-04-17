@@ -128,7 +128,7 @@ export default function ResetPasswordPage() {
           <span style={{ color: "#fff", fontSize: "1.2rem", fontWeight: 700 }}>S</span>
         </div>
         <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "1.1rem", color: "var(--color-text-primary)" }}>
-          Speak Equal
+          SpeakEqual
         </span>
       </Link>
 

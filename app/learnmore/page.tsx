@@ -145,7 +145,17 @@ function SectionCard({ title, body, examples, laws }: {
 export default function EducatePage() {
   const [activeSection, setActiveSection] = useState("employment");
   const [activeClass, setActiveClass] = useState<string | null>(null);
+  const [classSearch, setClassSearch] = useState("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const filteredClasses = classSearch.trim()
+    ? PROTECTED_CLASSES.filter(c =>
+        c.title.toLowerCase().includes(classSearch.toLowerCase()) ||
+        c.summary.toLowerCase().includes(classSearch.toLowerCase()) ||
+        c.content.toLowerCase().includes(classSearch.toLowerCase()) ||
+        c.laws.some(l => l.toLowerCase().includes(classSearch.toLowerCase()))
+      )
+    : PROTECTED_CLASSES;
 
   // Highlight the correct sub-nav item as user scrolls
   useEffect(() => {
@@ -444,10 +454,35 @@ export default function EducatePage() {
               <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", fontSize: "0.95rem", lineHeight: 1.75, maxWidth: "800px" }}>
                 These 11 characteristics are legally protected under Durham City Code Chapter 18 across all three areas of discrimination: employment, housing, and public accommodations. Select any class to learn more about how it is protected and what the law says.
               </p>
-            </div>
+
+              {/* Search */}
+              <div style={{ position: "relative", maxWidth: "360px", marginTop: "1.25rem" }}>
+                <input
+                  type="text"
+                  value={classSearch}
+                  onChange={e => { setClassSearch(e.target.value); setActiveClass(null); }}
+                  placeholder="Search protected classes…"
+                  style={{
+                    width: "100%", boxSizing: "border-box",
+                    background: "var(--color-bg-card)", border: "1.5px solid var(--color-border)",
+                    borderRadius: "8px", padding: "0.6rem 1rem 0.6rem 2.25rem",
+                    fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--color-text-primary)",
+                  }}
+                />
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: "var(--color-text-muted)", pointerEvents: "none" }}>
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </div>
+            </div>  {/* end header div */}
+
+            {filteredClasses.length === 0 && (
+              <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-muted)", fontSize: "0.9rem", marginBottom: "2rem" }}>
+                No protected classes match &ldquo;{classSearch}&rdquo;.
+              </p>
+            )}
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
-              {PROTECTED_CLASSES.map(({ id, title, summary }) => (
+              {filteredClasses.map(({ id, title, summary }) => (
                 <button
                   key={id}
                   id={id}
@@ -510,7 +545,7 @@ export default function EducatePage() {
             <div className="card" style={{ background: "var(--color-primary-light)", border: "1px solid var(--color-border)" }}>
               <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", marginBottom: "0.5rem" }}>Need More Help?</h3>
               <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--color-text-secondary)", marginBottom: "1rem", lineHeight: 1.6 }}>
-                If you believe your rights have been violated, Speak Equal can connect you with a trained advocate for an in-person appointment.
+                If you believe your rights have been violated, SpeakEqual can connect you with a trained advocate for an in-person appointment.
               </p>
               <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
                 <Link href="/report" className="btn-primary" style={{ fontSize: "0.875rem", padding: "0.45rem 1.1rem" }}>File a Report</Link>
@@ -523,7 +558,7 @@ export default function EducatePage() {
 
         <footer style={{ background: "#1E1A16", color: "rgba(255,255,255,0.65)", padding: "2.5rem 1.5rem", textAlign: "center" }}>
           <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>
-            Speak Equal
+            SpeakEqual
           </p>
         </footer>
       </main>

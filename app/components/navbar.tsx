@@ -14,9 +14,10 @@ const learnMoreLinks = [
 ];
 
 const mainLinks = [
-  { href: "/",        label: "Home"          },
-  { href: "/report",  label: "File a Report" },
-  { href: "/about",   label: "About Us"      },
+  { href: "/",           label: "Home"          },
+  { href: "/quiz",       label: "Building Awareness" },
+  { href: "/report",     label: "File a Report" },
+  { href: "/about",      label: "About Us"      },
 ];
 
 export default function Navbar() {
@@ -62,7 +63,7 @@ export default function Navbar() {
         <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.6rem" }}>
           <Image
             src="/images/logo.png"
-            alt="Speak Equal"
+            alt="SpeakEqual"
             width={32}
             height={32}
             style={{ borderRadius: "8px", objectFit: "cover" }}
@@ -75,7 +76,7 @@ export default function Navbar() {
             lineHeight: 1.1,
             letterSpacing: "-0.01em",
           }}>
-            Speak Equal
+            SpeakEqual
           </span>
         </Link>
 
@@ -189,6 +190,15 @@ export default function Navbar() {
               <Link href={dashHref} className="btn-outline" style={{ padding: "0.4rem 1rem", fontSize: "0.875rem" }}>
                 Dashboard
               </Link>
+              {session.user.role !== "admin" && (
+                <Link href="/dashboard/profile" style={{
+                  padding: "0.4rem 0.9rem", borderRadius: "8px",
+                  fontFamily: "var(--font-body)", fontWeight: 400, fontSize: "0.9rem",
+                  color: "var(--color-text-secondary)", textDecoration: "none",
+                }}>
+                  Profile
+                </Link>
+              )}
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="btn-primary"
@@ -274,6 +284,14 @@ export default function Navbar() {
           {session ? (
             <>
               <Link href={dashHref} onClick={() => setMenuOpen(false)} className="btn-outline">Dashboard</Link>
+              {session.user.role !== "admin" && (
+                <Link href="/dashboard/profile" onClick={() => setMenuOpen(false)} style={{
+                  padding: "0.5rem 0.75rem", borderRadius: "8px",
+                  fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", textDecoration: "none",
+                }}>
+                  Profile
+                </Link>
+              )}
               <button onClick={() => signOut({ callbackUrl: "/" })} className="btn-primary">Sign Out</button>
             </>
           ) : (

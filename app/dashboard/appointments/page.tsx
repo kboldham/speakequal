@@ -120,7 +120,7 @@ export default function UserAppointmentsPage() {
               <div style={{ fontSize: "3rem", marginBottom: "1rem" }}></div>
               <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.4rem", marginBottom: "0.75rem" }}>No appointments yet</h2>
               <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>
-                Book a confidential in-person consultation with a Speak Equal advocate.
+                Book a confidential in-person consultation with a SpeakEqual advocate.
               </p>
               <Link href="/report#appointments" className="btn-primary">Schedule an Appointment</Link>
             </div>
@@ -228,7 +228,7 @@ export default function UserAppointmentsPage() {
         </div>
 
         <footer style={{ background: "#1E1A16", color: "rgba(255,255,255,0.65)", padding: "2.5rem 1.5rem", textAlign: "center", marginTop: "2rem" }}>
-          <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>Speak Equal</p>
+          <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>SpeakEqual</p>
         </footer>
       </main>
     </>

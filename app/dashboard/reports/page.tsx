@@ -4,6 +4,7 @@ import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Navbar from "../../components/navbar";
+import ReportNotes from "../../components/ReportNotes";
 
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
   pending:   { bg: "#FEF3C7", color: "#92400E" },
@@ -90,11 +91,14 @@ export default async function UserReportsPage() {
                     {/* Status explanation */}
                     <div style={{ background: "var(--color-bg-muted)", borderRadius: "8px", padding: "0.75rem 1rem" }}>
                       <p style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "var(--color-text-secondary)" }}>
-                        {r.status === "pending"   && "Your report has been received and is waiting to be reviewed by the Speak Equal ."}
-                        {r.status === "reviewing" && "A staff member at the Speak Equal is currently reviewing your report."}
-                        {r.status === "resolved"  && "Your report has been reviewed and resolved. Contact the Speak Equal for details."}
+                        {r.status === "pending"   && "Your report has been received and is waiting to be reviewed by the SpeakEqual ."}
+                        {r.status === "reviewing" && "A staff member at the SpeakEqual is currently reviewing your report."}
+                        {r.status === "resolved"  && "Your report has been reviewed and resolved. Contact the SpeakEqual for details."}
                       </p>
                     </div>
+
+                    {/* Notes */}
+                    <ReportNotes reportId={r.id} />
 
                     {/* Attachments */}
                     {r.attachments.length > 0 && (
@@ -132,7 +136,7 @@ export default async function UserReportsPage() {
         </div>
 
         <footer style={{ background: "#1E1A16", color: "rgba(255,255,255,0.65)", padding: "2.5rem 1.5rem", textAlign: "center", marginTop: "2rem" }}>
-          <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>Speak Equal</p>
+          <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)" }}>SpeakEqual</p>
         </footer>
       </main>
     </>

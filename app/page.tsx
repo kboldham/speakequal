@@ -13,9 +13,9 @@ const SLIDES = [
   {
     image: "/images/mural.jpg" as string | null,
     bg: "linear-gradient(135deg, #1E1A16 0%, #2C2118 60%, #1E1A16 100%)",
-    label: "Speak Equal",
+    label: "SpeakEqual",
     heading: "You Have the Right\nto Be Treated Fairly",
-    body: "Speak Equal is here to help you understand your civil rights, file a discrimination report, and connect with a trained advocate safely and confidentially.",
+    body: "SpeakEqual is here to help you understand your civil rights, file a discrimination report, and connect with a trained advocate safely and confidentially.",
     cta: { label: "File a Report", href: "/report" },
     secondary: { label: "Know Your Rights", href: "/learnmore" },
   },
@@ -24,12 +24,12 @@ const SLIDES = [
     bg: "linear-gradient(135deg, #1A1624 0%, #221833 60%, #1A1624 100%)",
     label: "In-Person Advocacy",
     heading: "Meet With an\nAdvocate Today",
-    body: "Schedule a confidential in-person appointment with a trained Speak Equal advocate who will listen to your situation and help you understand your options.",
+    body: "Schedule a confidential in-person appointment with a trained SpeakEqual advocate who will listen to your situation and help you understand your options.",
     cta: { label: "Schedule an Appointment", href: "/report" },
     secondary: { label: "Learn How It Works", href: "/about" },
   },
   {
-    image: "/images/skyline.jpg" as string | null,
+    image: "/images/durham.jpg" as string | null,
     bg: "linear-gradient(135deg, #161E1A 0%, #182C22 60%, #161E1A 100%)",
     label: "Know Your Rights",
     heading: "11 Protected Classes.\nOne Platform.",
@@ -48,7 +48,7 @@ const QUICK_LINKS = [
   },
   {
     title: "Schedule an Appointment",
-    desc: "Book a confidential in-person session with a Speak Equal advocate at a time that works for you.",
+    desc: "Book a confidential in-person session with a SpeakEqual advocate at a time that works for you.",
     href: "/report",
     cta: "Book a Time",
   },
@@ -59,7 +59,7 @@ const QUICK_LINKS = [
     cta: "Learn More",
   },
   {
-    title: "About Speak Equal",
+    title: "About SpeakEqual",
     desc: "Learn who we are, our mission, and the team behind the platform.",
     href: "/about",
     cta: "Meet the Team",
@@ -120,9 +120,6 @@ export default function HomePage() {
           {slide.image && (
             <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
           )}
-
-          <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "320px", height: "320px", borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
-          <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "240px", height: "240px", borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
 
           <div style={{ maxWidth: "780px", margin: "0 auto", position: "relative" }}>
             <span className="section-label" style={{ color: "#FFFFFF", marginBottom: "1rem", display: "block" }}>
@@ -282,7 +279,7 @@ export default function HomePage() {
               Your Safety and Privacy is our Top Priority
             </h2>
             <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.25rem" }}>
-              You are never required to create an account. Reports can be filed anonymously and appointments can be scheduled as walk-in sessions without providing personal information. Speak Equal exists to create a safe, welcoming space for anyone who needs to voice a concern about discrimination and we will never require you to share more than you are comfortable with.
+              You are never required to create an account. Reports can be filed anonymously and appointments can be scheduled as walk-in sessions without providing personal information. SpeakEqual exists to create a safe, welcoming space for anyone who needs to voice a concern about discrimination and we will never require you to share more than you are comfortable with.
             </p>
             <Link href="/report" className="btn-primary" style={{ display: "inline-block" }}>
               Get Started
@@ -293,7 +290,7 @@ export default function HomePage() {
         {/* FOOTER */}
         <footer style={{ background: "#1E1A16", color: "rgba(255,255,255,0.65)", padding: "2.5rem 1.5rem", textAlign: "center" }}>
           <p style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "rgba(255,255,255,0.85)", marginBottom: "0.75rem" }}>
-            Speak Equal
+            SpeakEqual
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap", marginBottom: "1rem" }}>
             {[
@@ -308,7 +305,7 @@ export default function HomePage() {
             ))}
           </div>
           <p style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
-            Speak Equal is an independent platform dedicated to facilitating in-person advocacy appointments and civil rights education.
+            SpeakEqual is an independent platform dedicated to facilitating in-person advocacy appointments and civil rights education.
           </p>
         </footer>
       </main>
