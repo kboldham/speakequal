@@ -28,10 +28,7 @@ export async function GET(req: Request) {
 
   if (view === "appointments") {
     const appointments = await prisma.appointment.findMany({
-      include: {
-        user: { select: { email: true } },
-        slot: true,
-      },
+      include: { user: { select: { email: true } } },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(appointments);
@@ -40,7 +37,7 @@ export async function GET(req: Request) {
   return NextResponse.json({ error: "Specify ?view=reports or ?view=appointments" }, { status: 400 });
 }
 
-// PATCH: update report status or appointment status
+// PATCH: update report or appointment status
 export async function PATCH(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !requireAdmin(session.user.role)) {
@@ -48,7 +45,6 @@ export async function PATCH(req: Request) {
   }
 
   const { type, id, status } = await req.json();
-  // type: "report" | "appointment"
 
   if (type === "report") {
     const updated = await prisma.report.update({
@@ -66,34 +62,13 @@ export async function PATCH(req: Request) {
     const updated = await prisma.appointment.update({
       where:   { id },
       data:    { status },
-      include: { user: { select: { email: true } }, slot: true },
+      include: { user: { select: { email: true } } },
     });
     if (updated.user?.email) {
-      sendAppointmentStatusEmail(updated.user.email, updated.slot.startTime, status).catch(console.error);
+      sendAppointmentStatusEmail(updated.user.email, updated.startTime, status).catch(console.error);
     }
     return NextResponse.json(updated);
   }
 
   return NextResponse.json({ error: "Invalid type" }, { status: 400 });
-}
-
-// POST: admin creates available time slots
-export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id || !requireAdmin(session.user.role)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-
-  const { slots } = await req.json();
-  // slots = [{ startTime, endTime }]
-
-  const created = await prisma.timeSlot.createMany({
-    data: slots.map((s: { startTime: string; endTime: string }) => ({
-      startTime: new Date(s.startTime),
-      endTime: new Date(s.endTime),
-    })),
-    skipDuplicates: true,
-  });
-
-  return NextResponse.json(created);
 }

@@ -51,7 +51,7 @@ const NAV = [
   { href: "/admin",              label: "Dashboard"    },
   { href: "/admin/reports",      label: "Reports",      active: true  },
   { href: "/admin/appointments", label: "Appointments" },
-  { href: "/admin/slots",        label: "Time Slots"   },
+  { href: "/admin/slots",        label: "Availability" },
   { href: "/admin/users",        label: "Users"        },
 ];
 

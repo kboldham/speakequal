@@ -5,19 +5,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-interface Slot {
-  startTime: string;
-  endTime:   string;
-}
-
 interface Appointment {
-  id:        string;
-  status:    string;
-  source:    string;
-  reason:    string | null;
-  createdAt: string;
-  slot:      Slot;
-  user:      { name: string | null; email: string } | null;
+  id:             string;
+  status:         string;
+  source:         string;
+  startTime:      string;
+  zoomJoinUrl:    string | null;
+  createdAt:      string;
+  user:           { email: string } | null;
 }
 
 const STATUS_OPTIONS = ["scheduled", "completed", "cancelled"];
@@ -32,7 +27,7 @@ const NAV = [
   { href: "/admin",              label: "Dashboard"    },
   { href: "/admin/reports",      label: "Reports"      },
   { href: "/admin/appointments", label: "Appointments", active: true },
-  { href: "/admin/slots",        label: "Time Slots"   },
+  { href: "/admin/slots",        label: "Availability" },
   { href: "/admin/users",        label: "Users"        },
 ];
 
@@ -44,6 +39,7 @@ export default function AdminAppointmentsPage() {
   const [loading, setLoading]           = useState(true);
   const [filter, setFilter]             = useState("all");
   const [updatingId, setUpdatingId]     = useState<string | null>(null);
+  const [deletingId, setDeletingId]     = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/auth/signin");
@@ -68,11 +64,19 @@ export default function AdminAppointmentsPage() {
     setUpdatingId(null);
   }
 
+  async function deleteAppointment(id: string) {
+    if (!confirm("Delete this appointment record? This cannot be undone.")) return;
+    setDeletingId(id);
+    await fetch(`/api/admin/appointments/${id}`, { method: "DELETE" });
+    setAppointments(prev => prev.filter(a => a.id !== id));
+    setDeletingId(null);
+  }
+
   const filtered = filter === "all" ? appointments : appointments.filter(a => a.status === filter);
 
   if (loading) return (
     <div style={{ minHeight: "100vh", background: "#F9FAFB", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <p style={{ color: "#6B7280", fontFamily: "system-ui, sans-serif" }}>Loading…</p>
+      <p style={{ color: "#6B7280", fontFamily: "system-ui, sans-serif" }}>Loading...</p>
     </div>
   );
 
@@ -97,9 +101,9 @@ export default function AdminAppointmentsPage() {
             </Link>
           ))}
         </nav>
-        <div style={{ marginTop: "auto", paddingTop: "0.75rem", borderTop: "1px solid #E5E7EB", padding: "0.75rem 0.5rem 1rem" }}>
+        <div style={{ marginTop: "auto", borderTop: "1px solid #E5E7EB", padding: "0.75rem 0.5rem 1rem" }}>
           <Link href="/" style={{ display: "block", padding: "0.5rem 0.75rem", color: "#6B7280", textDecoration: "none", fontSize: "0.8rem" }}>
-            ← Back to site
+            Back to site
           </Link>
         </div>
       </aside>
@@ -111,13 +115,12 @@ export default function AdminAppointmentsPage() {
             <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#111827", margin: 0 }}>Appointments</h1>
             <p style={{ color: "#6B7280", fontSize: "0.85rem", marginTop: "0.25rem" }}>{filtered.length} appointment{filtered.length !== 1 ? "s" : ""}</p>
           </div>
-
           <div style={{ display: "flex", gap: "0.25rem", background: "#F3F4F6", padding: "0.25rem", borderRadius: "8px", border: "1px solid #E5E7EB" }}>
             {["all", ...STATUS_OPTIONS].map(f => (
               <button key={f} onClick={() => setFilter(f)} style={{
                 padding: "0.35rem 0.75rem", borderRadius: "6px", border: "none", cursor: "pointer",
-                background:   filter === f ? "#fff" : "transparent",
-                color:        filter === f ? "#111827" : "#6B7280",
+                background: filter === f ? "#fff" : "transparent",
+                color:      filter === f ? "#111827" : "#6B7280",
                 fontSize: "0.825rem", fontWeight: filter === f ? 600 : 400,
                 textTransform: "capitalize", boxShadow: filter === f ? "0 1px 2px rgba(0,0,0,0.08)" : "none",
               }}>
@@ -136,7 +139,7 @@ export default function AdminAppointmentsPage() {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid #E5E7EB", background: "#F9FAFB" }}>
-                  {["Resident", "Date & Time", "Source", "Reason", "Status", "Action"].map(h => (
+                  {["Resident", "Date & Time", "Zoom Link", "Status", "Update", "Delete"].map(h => (
                     <th key={h} style={{ textAlign: "left", padding: "0.75rem 1rem", color: "#6B7280", fontWeight: 600, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>{h}</th>
                   ))}
                 </tr>
@@ -150,15 +153,16 @@ export default function AdminAppointmentsPage() {
                         <p style={{ color: "#111827", fontWeight: 600, fontSize: "0.875rem", margin: 0 }}>{a.user?.email ?? "Anonymous"}</p>
                       </td>
                       <td style={{ padding: "0.875rem 1rem", color: "#374151", whiteSpace: "nowrap" }}>
-                        {new Date(a.slot.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
+                        {new Date(a.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
                       </td>
                       <td style={{ padding: "0.875rem 1rem" }}>
-                        <span style={{ background: "#F3F4F6", color: "#374151", fontSize: "0.7rem", fontWeight: 600, padding: "0.15rem 0.45rem", borderRadius: "4px", textTransform: "uppercase" }}>
-                          {a.source}
-                        </span>
-                      </td>
-                      <td style={{ padding: "0.875rem 1rem", color: "#6B7280", fontSize: "0.825rem", maxWidth: "200px" }}>
-                        {a.reason ?? <span style={{ color: "#D1D5DB" }}>—</span>}
+                        {a.zoomJoinUrl ? (
+                          <a href={a.zoomJoinUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#2D8CFF", fontWeight: 600, fontSize: "0.8rem", textDecoration: "none" }}>
+                            Join Zoom
+                          </a>
+                        ) : (
+                          <span style={{ color: "#D1D5DB", fontSize: "0.8rem" }}>N/A</span>
+                        )}
                       </td>
                       <td style={{ padding: "0.875rem 1rem" }}>
                         <span style={{ background: sc.bg, color: sc.color, fontSize: "0.72rem", fontWeight: 600, padding: "0.2rem 0.6rem", borderRadius: "4px", textTransform: "uppercase" }}>
@@ -176,6 +180,15 @@ export default function AdminAppointmentsPage() {
                             <option key={s} value={s} style={{ textTransform: "capitalize" }}>{s}</option>
                           ))}
                         </select>
+                      </td>
+                      <td style={{ padding: "0.875rem 1rem" }}>
+                        <button
+                          onClick={() => deleteAppointment(a.id)}
+                          disabled={deletingId === a.id}
+                          style={{ background: "none", border: "1px solid #FCA5A5", color: "#DC2626", borderRadius: "6px", padding: "0.3rem 0.6rem", fontSize: "0.75rem", fontWeight: 600, cursor: "pointer", opacity: deletingId === a.id ? 0.5 : 1 }}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   );

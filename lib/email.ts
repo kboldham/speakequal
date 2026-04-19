@@ -130,11 +130,11 @@ export async function sendReportStatusEmail(
 
 // ─── Appointment Confirmation ─────────────────────────────────
 export async function sendAppointmentConfirmationEmail(
-  to:       string,
-  slotTime: Date,
-  reason:   string | null,
+  to:          string,
+  startTime:   Date,
+  zoomJoinUrl: string | null,
 ): Promise<void> {
-  const formatted = slotTime.toLocaleString("en-US", {
+  const formatted = startTime.toLocaleString("en-US", {
     weekday: "long", month: "long", day: "numeric",
     year: "numeric", hour: "numeric", minute: "2-digit", hour12: true,
   });
@@ -142,21 +142,27 @@ export async function sendAppointmentConfirmationEmail(
   await send({
     from:    FROM,
     to,
-    subject: "Your SpeakEqual appointment is confirmed",
+    subject: "Your SpeakEqual Zoom appointment is confirmed",
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:2rem;">
         <h2 style="font-size:1.4rem;margin-bottom:0.5rem;">Appointment Confirmed</h2>
         <p style="color:#555;line-height:1.6;">
-          Your in-person appointment with a SpeakEqual advocate has been scheduled.
+          Your Zoom consultation with a SpeakEqual advocate has been scheduled.
         </p>
         <div style="background:#f9f9f9;border-left:4px solid #C4782A;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:4px;">
           <p style="margin:0;font-weight:600;color:#333;">${formatted}</p>
-          ${reason ? `<p style="margin:0.5rem 0 0;color:#555;font-size:0.9rem;">${reason}</p>` : ""}
+          <p style="margin:0.35rem 0 0;color:#555;font-size:0.875rem;">30-minute Zoom call</p>
         </div>
-        <p style="color:#555;line-height:1.6;">
-          If you need to cancel or reschedule, please sign in to your account.
+        ${zoomJoinUrl ? `
+        <a href="${zoomJoinUrl}" style="display:inline-block;margin:0.5rem 0 1.25rem;padding:0.75rem 1.75rem;background:#2D8CFF;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:1rem;">
+          Join Zoom Call
+        </a>
+        <p style="color:#888;font-size:0.8rem;margin-top:0.25rem;">Save this link — you will need it to join your call.</p>
+        ` : ""}
+        <p style="color:#555;line-height:1.6;margin-top:1rem;">
+          To reschedule or cancel, use the link in your Calendly confirmation email.
         </p>
-        <a href="${APP_URL}/dashboard/appointments" style="display:inline-block;margin:1.25rem 0;padding:0.65rem 1.5rem;background:#C4782A;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">
+        <a href="${APP_URL}/dashboard/appointments" style="display:inline-block;margin:1rem 0;padding:0.65rem 1.5rem;background:#C4782A;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">
           View My Appointments
         </a>
         <hr style="border:none;border-top:1px solid #eee;margin:1.5rem 0;" />

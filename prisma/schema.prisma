@@ -90,28 +90,17 @@ model Message {
   createdAt      DateTime     @default(now())
 }
 
-model TimeSlot {
-  id        String   @id @default(cuid())
-  startTime DateTime
-  endTime   DateTime
-  isBooked  Boolean  @default(false)
-
-  appointment Appointment?
-}
-
 model Appointment {
-  id             String    @id @default(cuid())
-  userId         String?
-  user           User?     @relation(fields: [userId], references: [id])
-  slotId         String    @unique
-  slot           TimeSlot  @relation(fields: [slotId], references: [id])
-  reason         String?   // already optional — blank for walk-ins
-  walkIn         Boolean   @default(false)  // ← add this
-  status         String    @default("scheduled")
-  source         String    @default("calendar")
-  conversationId String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id              String    @id @default(cuid())
+  userId          String?
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  calendlyEventId String?   @unique
+  startTime       DateTime
+  zoomJoinUrl     String?
+  status          String    @default("scheduled")
+  source          String    @default("calendly")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model Attachment {

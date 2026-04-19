@@ -125,12 +125,11 @@ Work through this dynamically — skip any step where the information was alread
 6. **Confirm and submit** — Read back all collected details clearly and ask: "Does this look right? I'll go ahead and submit your report."
 7. When the user says yes, confirms, or gives any affirmative response — you MUST call submit_discrimination_report immediately in that same response. Do NOT say "I'll submit it now" or "submitting…" as a text reply. The function call IS the submission. Never tell the user a report has been submitted unless the function returned success.
 
-## Booking an Appointment
-When a user wants to book an appointment:
-1. Ask what they would like to discuss
-2. Present 2 to 3 available slots in a readable format (e.g., "Tuesday, April 8th at 10:00 AM")
-3. Confirm the user's selection before booking
-4. When the user selects and confirms a slot — you MUST call book_appointment immediately in that same response using the exact slot ID from the available slots list. Do NOT say "booking now…" as a text reply. The function call IS the booking. Never tell the user an appointment is booked unless the function returned success.
+## Scheduling an Appointment
+When a user wants to schedule an appointment:
+1. Let them know they can book a Zoom consultation directly on this page using the "Schedule a Zoom Call" option
+2. Explain that Calendly manages the scheduling and will automatically send a Zoom link to their email after booking
+3. Do NOT attempt to book appointments yourself — direct users to the scheduling section of this page instead
 
 ## Legal Knowledge
 You can explain these laws in plain terms:
@@ -144,7 +143,7 @@ You can explain these laws in plain terms:
 ## About SpeakEqual
 - A platform for community members to file discrimination reports and schedule appointments with advocates
 - Reports can be filed with or without an account — no one is turned away
-- Appointments are in-person meetings with a SpeakEqual advocate
+- Appointments are Zoom consultations with a SpeakEqual advocate, booked via the scheduling calendar on this page
 - Users can view their dashboard to see past reports and upcoming appointments after signing in
 
 ## Important Guidelines
@@ -198,28 +197,6 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
           respondentPhone:   { type: "string", description: "Respondent phone — only include if provided." },
         },
         required: ["incidentDate", "discriminationType", "category", "description"],
-      },
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "book_appointment",
-      description:
-        "Book an appointment slot for the user. Only call this after the user has selected a specific slot and confirmed they want to book it.",
-      parameters: {
-        type: "object",
-        properties: {
-          slotId: {
-            type: "string",
-            description: "The exact ID of the time slot to book (from the available slots list).",
-          },
-          reason: {
-            type: "string",
-            description: "The reason the user wants to meet with an advocate.",
-          },
-        },
-        required: ["slotId"],
       },
     },
   },
@@ -288,37 +265,6 @@ export async function POST(req: Request) {
   // ── 4. Prompt injection sanitization ──
   const { sanitized: sanitizedMessage, wasAltered } = sanitizeMessage(message);
 
-  // ── Fetch available appointment slots for AI context ──
-  const availableSlots = await prisma.timeSlot.findMany({
-    where: { isBooked: false, startTime: { gte: new Date() } },
-    orderBy: { startTime: "asc" },
-    take: 20,
-  });
-
-  const slotsContext =
-    availableSlots.length > 0
-      ? `\n\n---\nAVAILABLE APPOINTMENT SLOTS (use these exact IDs when calling book_appointment):\n` +
-        availableSlots
-          .map(
-            (s) =>
-              `• ID: ${s.id} | ${new Date(s.startTime).toLocaleString("en-US", {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-              })} – ${new Date(s.endTime).toLocaleString("en-US", {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-              })}`
-          )
-          .join("\n") +
-        "\n---"
-      : "\n\n---\nNo appointment slots are currently available. Let the user know and encourage them to check back soon.\n---";
-
   // ── Load prior messages if resuming a saved conversation (last 20 only) ──
   // For anonymous users, fall back to client-supplied history so context is not lost.
   let history: { role: "user" | "assistant"; content: string }[] = [];
@@ -357,14 +303,13 @@ export async function POST(req: Request) {
     : sanitizedMessage;
 
   const openAiMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-    { role: "system", content: SYSTEM_PROMPT + slotsContext },
+    { role: "system", content: SYSTEM_PROMPT },
     ...history,
     { role: "user", content: userContent },
   ];
 
   // ── Agentic loop — handles tool calls recursively ──
   let createdReport = false;
-  let appointmentBooked = false;
 
   async function runLoop(
     msgs: OpenAI.Chat.ChatCompletionMessageParam[]
@@ -423,34 +368,6 @@ export async function POST(req: Request) {
             }
           }
 
-          if (call.function.name === "book_appointment") {
-            const slot = await prisma.timeSlot.findUnique({
-              where: { id: args.slotId },
-            });
-
-            if (!slot || slot.isBooked) {
-              toolResult =
-                "That slot is no longer available — please present the user with other options from the list.";
-            } else {
-              await prisma.$transaction([
-                prisma.timeSlot.update({
-                  where: { id: args.slotId },
-                  data: { isBooked: true },
-                }),
-                prisma.appointment.create({
-                  data: {
-                    userId: userId ?? null,
-                    slotId: args.slotId,
-                    reason: args.reason ?? null,
-                    source: "ai",
-                    conversationId: activeConversationId ?? null,
-                  },
-                }),
-              ]);
-              appointmentBooked = true;
-              toolResult = "Appointment booked successfully.";
-            }
-          }
         } catch {
           toolResult = "An error occurred. Let the user know and offer to try again.";
         }
@@ -498,6 +415,5 @@ export async function POST(req: Request) {
     message: assistantReply,
     conversationId: activeConversationId,
     createdReport,
-    appointmentBooked,
   });
 }

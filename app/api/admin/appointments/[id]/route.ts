@@ -3,17 +3,18 @@ import { NextResponse } from "next/server";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-// GET: return the current user's appointments
-export async function GET() {
+export async function DELETE(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  if (!session || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const appointments = await prisma.appointment.findMany({
-    where:   { userId: session.user.id },
-    orderBy: { startTime: "desc" },
-  });
+  const { id } = await params;
 
-  return NextResponse.json(appointments);
+  await prisma.appointment.delete({ where: { id } });
+
+  return NextResponse.json({ ok: true });
 }

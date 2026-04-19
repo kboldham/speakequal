@@ -24,7 +24,6 @@ export default async function UserDashboard() {
     }),
     prisma.appointment.findMany({
       where:   { userId: session.user.id },
-      include: { slot: true },
       orderBy: { createdAt: "desc" },
       take:    5,
     }),
@@ -139,7 +138,7 @@ export default async function UserDashboard() {
                   <div key={a.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.875rem 1rem", background: "var(--color-bg-muted)", borderRadius: "10px", flexWrap: "wrap", gap: "0.5rem" }}>
                     <div>
                       <p style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "0.875rem" }}>
-                        {new Date(a.slot.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
+                        {new Date(a.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
                       </p>
                       <p style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", color: "var(--color-text-muted)" }}>
                         30 min · via {a.source}

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/navbar";
 import ChatBox from "../components/Chatbot";
+import AppointmentCalendar from "../components/AppointmentCalendar";
 
 const DISCRIMINATION_TYPES = [
   { value: "race",               label: "Race" },
@@ -18,16 +19,7 @@ const DISCRIMINATION_TYPES = [
   { value: "veteran_status",     label: "Veteran Status" },
 ];
 
-function formatSlot(iso: string) {
-  return new Date(iso).toLocaleString("en-US", {
-    weekday: "short", month: "short", day: "numeric",
-    hour: "numeric", minute: "2-digit", hour12: true,
-  });
-}
-
 export default function ReportPage() {
-  const [slots, setSlots] = useState<{ id: string; startTime: string; endTime: string }[]>([]);
-
   // Which manual section is open (null = both collapsed)
   const [openSection, setOpenSection] = useState<"report" | "appointment" | null>(null);
 
@@ -48,16 +40,6 @@ export default function ReportPage() {
   const [attachments, setAttachments]         = useState<File[]>([]);
   const [reportSubmitted, setReportSubmitted] = useState(false);
   const [reportLoading, setReportLoading]     = useState(false);
-
-  // Appointment form state
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [apptReason, setApptReason]     = useState("");
-  const [apptAnon, setApptAnon]         = useState(false);
-  const [apptSubmitted, setApptSubmitted] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/appointments").then(r => r.json()).then(setSlots).catch(() => {});
-  }, []);
 
   async function handleReportSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -94,16 +76,6 @@ export default function ReportPage() {
     } finally {
       setReportLoading(false);
     }
-  }
-
-  async function handleApptSubmit() {
-    if (!selectedSlot) return;
-    await fetch("/api/appointments", {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slotId: selectedSlot, reason: apptReason, source: "calendar", anonymous: apptAnon }),
-    });
-    setApptSubmitted(true);
   }
 
   function toggleSection(section: "report" | "appointment") {
@@ -394,28 +366,18 @@ export default function ReportPage() {
               )}
             </div>
 
-            {/* ── BOOK APPOINTMENT MANUALLY ── */}
+            {/* ── SCHEDULE A ZOOM CALL ── */}
             <div style={{ border: "1px solid var(--color-border)", borderRadius: "16px", overflow: "hidden", background: "var(--color-bg-card)" }}>
               <button
                 onClick={() => toggleSection("appointment")}
-                style={{
-                  width:        "100%",
-                  padding:      "1.1rem 1.25rem",
-                  display:      "flex",
-                  alignItems:   "center",
-                  justifyContent:"space-between",
-                  background:   "none",
-                  border:       "none",
-                  cursor:       "pointer",
-                  textAlign:    "left",
-                }}
+                style={{ width: "100%", padding: "1.1rem 1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
               >
                 <div>
                   <p style={{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "0.95rem", color: "var(--color-text-primary)" }}>
-                    Book an Appointment
+                    Schedule a Zoom Call
                   </p>
                   <p style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--color-text-muted)", marginTop: "0.15rem" }}>
-                    Browse available time slots
+                    Book a confidential 30-minute consultation
                   </p>
                 </div>
                 <span style={{ fontFamily: "var(--font-body)", fontSize: "1.2rem", color: "var(--color-text-muted)", transform: openSection === "appointment" ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
@@ -425,90 +387,7 @@ export default function ReportPage() {
 
               {openSection === "appointment" && (
                 <div style={{ borderTop: "1px solid var(--color-border)", padding: "1.25rem" }}>
-                  {apptSubmitted ? (
-                    <div style={{ textAlign: "center", padding: "1.5rem 0" }}>
-                      <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>📅</div>
-                      <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", marginBottom: "0.5rem" }}>Appointment Booked</h3>
-                      <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", fontSize: "0.875rem" }}>
-                        Your appointment has been confirmed.
-                      </p>
-                      <button onClick={() => setApptSubmitted(false)} className="btn-outline" style={{ marginTop: "1rem", fontSize: "0.85rem" }}>
-                        Book another
-                      </button>
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "var(--color-text-secondary)" }}>
-                        In-person sessions at 101 City Hall Plaza, Durham, NC 27701.
-                      </p>
-
-                      {/* Slot grid */}
-                      {slots.length === 0 ? (
-                        <p style={{ fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
-                          No available slots right now. Check back soon or ask the AI assistant above.
-                        </p>
-                      ) : (
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "0.6rem" }}>
-                          {slots.map(slot => (
-                            <button
-                              key={slot.id}
-                              onClick={() => setSelectedSlot(selectedSlot === slot.id ? null : slot.id)}
-                              style={{
-                                padding:      "0.75rem",
-                                borderRadius: "10px",
-                                border:       `2px solid ${selectedSlot === slot.id ? "var(--color-primary)" : "var(--color-border)"}`,
-                                background:   selectedSlot === slot.id ? "var(--color-primary-light)" : "var(--color-bg-card)",
-                                cursor:       "pointer",
-                                textAlign:    "left",
-                                transition:   "all 0.15s",
-                              }}
-                            >
-                              <p style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "0.82rem", color: selectedSlot === slot.id ? "var(--color-primary)" : "var(--color-text-primary)" }}>
-                                {formatSlot(slot.startTime)}
-                              </p>
-                              <p style={{ fontFamily: "var(--font-body)", fontSize: "0.72rem", color: "var(--color-text-muted)", marginTop: "0.15rem" }}>30 min session</p>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-
-                      <div>
-                        <label style={{ fontFamily: "var(--font-body)", fontSize: "0.82rem", fontWeight: 600, display: "block", marginBottom: "0.35rem" }}>
-                          Reason (optional)
-                        </label>
-                        <textarea
-                          rows={2}
-                          className="form-input"
-                          placeholder="Briefly describe why you'd like to meet…"
-                          value={apptReason}
-                          onChange={e => setApptReason(e.target.value)}
-                          style={{ resize: "vertical" }}
-                        />
-                      </div>
-
-                      <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
-                        <input
-                          type="checkbox"
-                          checked={apptAnon}
-                          onChange={e => setApptAnon(e.target.checked)}
-                          style={{ width: "15px", height: "15px", accentColor: "var(--color-primary)" }}
-                        />
-                        <span style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "var(--color-text-secondary)" }}>
-                          Book anonymously
-                        </span>
-                      </label>
-
-                      <button
-                        className="btn-primary"
-                        disabled={!selectedSlot}
-                        onClick={handleApptSubmit}
-                        style={{ fontSize: "0.925rem", padding: "0.7rem", opacity: selectedSlot ? 1 : 0.5 }}
-                      >
-                        Confirm Appointment
-                      </button>
-                    </div>
-                  )}
+                  <AppointmentCalendar />
                 </div>
               )}
             </div>

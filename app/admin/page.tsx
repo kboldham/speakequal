@@ -24,7 +24,7 @@ const NAV = [
   { href: "/admin",              label: "Dashboard"    },
   { href: "/admin/reports",      label: "Reports"      },
   { href: "/admin/appointments", label: "Appointments" },
-  { href: "/admin/slots",        label: "Time Slots"   },
+  { href: "/admin/slots",        label: "Availability" },
   { href: "/admin/users",        label: "Users"        },
 ];
 
@@ -47,7 +47,7 @@ export default async function AdminDashboard() {
     prisma.appointment.findMany({
       orderBy: { createdAt: "desc" },
       take:    5,
-      include: { user: { select: { email: true } }, slot: true },
+      include: { user: { select: { email: true } } },
     }),
     prisma.report.groupBy({
       by:      ["discriminationType"],
@@ -172,7 +172,7 @@ export default async function AdminDashboard() {
                     <div>
                       <p style={{ color: "#374151", fontWeight: 600, fontSize: "0.875rem", margin: 0 }}>{a.user!.email}</p>
                       <p style={{ color: "#6B7280", fontSize: "0.78rem", marginTop: "0.15rem" }}>
-                        {new Date(a.slot.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
+                        {new Date(a.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
                       </p>
                     </div>
                     <span style={{ background: sc.bg, color: sc.color, fontSize: "0.72rem", fontWeight: 600, padding: "0.2rem 0.6rem", borderRadius: "4px", textTransform: "uppercase" }}>

@@ -18,12 +18,6 @@ interface Conversation {
   updatedAt: string;
 }
 
-interface Slot {
-  id:        string;
-  startTime: string;
-  endTime:   string;
-}
-
 interface ChatBoxProps {
   /** "report" shows report-specific greeting, "appointment" shows appointment greeting, "general" for homepage */
   mode?: "report" | "appointment" | "general";
@@ -34,7 +28,7 @@ interface ChatBoxProps {
 // ─────────────────────────────────────────────────────────────
 const GREETINGS: Record<string, string> = {
   report:      "Hello, I'm here to help you file a discrimination report. I'll ask you a few questions to gather the details. Can you start by telling me approximately when the incident occurred?",
-  appointment: "Hello! I can help you schedule an in-person appointment. Would you prefer a morning or afternoon session, and do you have any particular dates in mind?",
+  appointment: "Hello! I can help you schedule a Zoom consultation with a SpeakEqual advocate. Head to the Schedule tab on this page to book a time through our scheduling system. Is there anything else I can help you with?",
   general:     "Hello! I'm here to help Durham residents with discrimination-related questions, filing reports, and scheduling appointments. What can I help you with today?",
 };
 
@@ -50,10 +44,6 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
   const [conversationId, setConversationId]   = useState<string | null>(null);
   const [conversations, setConversations]     = useState<Conversation[]>([]);
   const [showSidebar, setShowSidebar]         = useState(false);
-  const [availableSlots, setAvailableSlots]   = useState<Slot[]>([]);
-  const [showSlotPicker, setShowSlotPicker]   = useState(false);
-  const [pendingReason, setPendingReason]     = useState<string>("");
-  const [slotBooked, setSlotBooked]           = useState(false);
   const [reportCreated, setReportCreated]     = useState(false);
 
   const scrollRef  = useRef<HTMLDivElement>(null);
@@ -69,14 +59,6 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
   useEffect(() => {
     if (session?.user?.id) fetchConversations();
   }, [session]);
-
-  // Load available slots for appointment picker
-  useEffect(() => {
-    fetch("/api/appointments")
-      .then(r => r.json())
-      .then(setAvailableSlots)
-      .catch(() => {});
-  }, []);
 
   async function fetchConversations() {
     const res = await fetch("/api/chat");
@@ -134,11 +116,6 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
         setReportCreated(true);
       }
 
-      // Appointment was booked by AI
-      if (data.appointmentBooked) {
-        setSlotBooked(true);
-      }
-
       // Refresh conversation list
       if (session?.user?.id) fetchConversations();
 
@@ -150,34 +127,10 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
     }
   }
 
-  async function bookSlot(slotId: string) {
-    const res = await fetch("/api/appointments", {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({
-        slotId,
-        reason:         pendingReason,
-        source:         "ai",
-        conversationId: conversationId ?? undefined,
-      }),
-    });
-
-    if (res.ok) {
-      setSlotBooked(true);
-      setShowSlotPicker(false);
-      setMessages(prev => [...prev, {
-        role:    "assistant",
-        content: "Your appointment has been booked! You'll receive a confirmation. Is there anything else I can help you with?",
-      }]);
-    }
-  }
-
   function startNewChat() {
     setMessages([]);
     setConversationId(null);
     setReportCreated(false);
-    setSlotBooked(false);
-    setShowSlotPicker(false);
     setShowSidebar(false);
   }
 
@@ -355,57 +308,7 @@ export default function ChatBox({ mode = "general" }: ChatBoxProps) {
             </div>
           )}
 
-          {/* Appointment booked confirmation */}
-          {slotBooked && (
-            <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: "10px", padding: "0.875rem 1rem" }}>
-              <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--color-text-primary)", fontWeight: 600 }}>
-                Your appointment has been booked successfully.
-              </p>
-              {isLoggedIn && (
-                <Link href="/dashboard/appointments" style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "#2563EB", fontWeight: 600, textDecoration: "none" }}>
-                  View your appointments →
-                </Link>
-              )}
-            </div>
-          )}
-
         </div>
-
-        {/* Slot Picker */}
-        {showSlotPicker && (
-          <div style={{ padding: "1rem 1.25rem", borderTop: "1px solid var(--color-border)", background: "var(--color-primary-light)" }}>
-            <p style={{ fontFamily: "var(--font-body)", fontSize: "0.85rem", fontWeight: 600, color: "var(--color-text-primary)", marginBottom: "0.75rem" }}>
-              Select an appointment time:
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "0.5rem", marginBottom: "0.75rem" }}>
-              {availableSlots.slice(0, 6).map(slot => (
-                <button key={slot.id} onClick={() => bookSlot(slot.id)} style={{
-                  padding:      "0.6rem 0.75rem",
-                  borderRadius: "8px",
-                  border:       "1.5px solid var(--color-primary)",
-                  background:   "#fff",
-                  color:        "var(--color-primary)",
-                  fontFamily:   "var(--font-body)",
-                  fontSize:     "0.8rem",
-                  fontWeight:   600,
-                  cursor:       "pointer",
-                  textAlign:    "left",
-                  transition:   "all 0.12s",
-                }}>
-                  {new Date(slot.startTime).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true })}
-                </button>
-              ))}
-              {availableSlots.length === 0 && (
-                <p style={{ fontFamily: "var(--font-body)", fontSize: "0.825rem", color: "var(--color-text-secondary)" }}>
-                  No available slots. <Link href="/report" style={{ color: "var(--color-primary)", fontWeight: 600 }}>View calendar →</Link>
-                </p>
-              )}
-            </div>
-            <button onClick={() => setShowSlotPicker(false)} style={{ background: "none", border: "none", color: "var(--color-text-muted)", fontSize: "0.78rem", cursor: "pointer", fontFamily: "var(--font-body)" }}>
-              Dismiss
-            </button>
-          </div>
-        )}
 
         {/* Input */}
         <div style={{ padding: "1rem 1.25rem", borderTop: "1px solid var(--color-border)", display: "flex", gap: "0.75rem" }}>

@@ -80,17 +80,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: "Password is incorrect" }, { status: 400 });
   }
 
-  // Free all booked slots before deleting appointments
-  const appointments = await prisma.appointment.findMany({
-    where:  { userId: session.user.id, status: "scheduled" },
-    select: { slotId: true },
-  });
-
   await prisma.$transaction([
-    // Release booked slots
-    ...appointments.map(a =>
-      prisma.timeSlot.update({ where: { id: a.slotId }, data: { isBooked: false } })
-    ),
     // Anonymize reports (preserve the report, just remove the user link)
     prisma.report.updateMany({ where: { userId: session.user.id }, data: { userId: null } }),
     // Delete appointments
