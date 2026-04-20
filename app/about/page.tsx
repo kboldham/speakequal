@@ -4,7 +4,7 @@ import Image from "next/image";
 const team = [
   { name: "Corey Little",      role: "Project Manager",                          image: "/images/corey.jpeg",   linkedin: "https://www.linkedin.com/in/corey-little-070688281/" },
   { name: "Savion Brown",      role: "Lead Product Tester & Quality Assurance",  image: "/images/savion.jpeg",  linkedin: "https://www.linkedin.com/in/savion-brown-7b6ba928b/" },
-  { name: "Dha'Shawn Johnson", role: "Lead UI & Design",                         image: "/images/dj.jpeg",      linkedin: "https://www.linkedin.com/in/dha%E2%80%99shawn-johnson-938140251/" },
+  { name: "Dha'Shawn Johnson", role: "Lead UX & Design",                         image: "/images/dj.jpeg",      linkedin: "https://www.linkedin.com/in/dha%E2%80%99shawn-johnson-938140251/" },
   { name: "Kyle Oldham",       role: "Lead Developer",                           image: "/images/kyle2.jpeg",    linkedin: "https://www.linkedin.com/in/kyle-oldham-922607266/" },
   { name: "Melanie Osley",     role: "Lead Researcher",                          image: "/images/melanie.png",  linkedin: "https://www.linkedin.com/in/melanie-osley-869b232a4/" },
 ];
@@ -52,7 +52,7 @@ export default function AboutPage() {
           <div className="card" style={{ marginBottom: "2rem" }}>
             <span className="section-label" style={{ display: "block", marginBottom: "0.75rem" }}>The Project</span>
             <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.6rem", marginBottom: "1rem" }}>
-              Our Capstone
+              SpeakEqual
             </h2>
             <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", lineHeight: 1.75, marginBottom: "1rem" }}>
               An integrated system that assists residents facing discrimination issues across the 11 protected classes in Durham, NC. Using new technologies, we have created a user-friendly platform that connects residents with trained advocates for in-person appointments, while also providing educational resources on civil rights and discrimination.
@@ -61,6 +61,18 @@ export default function AboutPage() {
               The platform includes an AI-powered assistant trained on Durham's discrimination laws and
               protected classes, a traditional form-based reporting path, a built-in appointment scheduler,
               and an admin dashboard for SpeakEqual advocates to manage submissions and appointments.
+            </p>
+          </div>
+
+            
+          <div className="card" style={{ marginBottom: "2rem" }}>
+            <span className="section-label" style={{ display: "block", marginBottom: "0.75rem" }}>Mission & Vision</span>
+        
+            <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", lineHeight: 1.75, marginBottom: "1rem" }}>
+              SpeakEqual exists to make civil rights protection accessible to every Durham resident. Too many people experience discrimination and have nowhere to turn, no clear understanding of their rights, and no straightforward way to be heard. SpeakEqual closes that gap by giving residents a free confidential platform to report discrimination, connect with an advocate, and learn what the law guarantees. Not only the oppurtunity to learn but the opportunity to advocate for themselves on their own time, in their own words, and in a way that works for them.
+            </p>
+            <p style={{ fontFamily: "var(--font-body)", color: "var(--color-text-secondary)", lineHeight: 1.75 }}>
+              We believe that equal protection under the law means nothing if the people it protects cannot access it. SpeakEqual is built on the conviction that technology can lower the barriers between residents and the rights they already have.
             </p>
           </div>
 
